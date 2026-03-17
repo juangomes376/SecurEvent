@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SecureVent · Événements de cybersécurité{% endblock %}
+
+{% block body %}
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-400/20 via-transparent to-transparent blur-3xl"></div>
+    <div class="relative max-w-6xl mx-auto px-6 py-20 lg:py-32">
+      <div class="max-w-2xl">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">Votre hub d'événements de <span class="text-cyan-400">cybersécurité</span></h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-200">Découvrez et partagez des conférences, ateliers et rencontres pour la communauté de la sécurité. Filtrez par date, lieu et type d'événement.</p>
+        <div class="mt-10 flex flex-col sm:flex-row gap-3">
+          <a href="{{ path('app_event_index') }}" class="inline-flex items-center justify-center rounded-md bg-cyan-400 px-8 py-3 text-base font-semibold text-slate-950 shadow hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">Voir les événements</a>
+          <a href="{{ path('app_event_new') }}" class="inline-flex items-center justify-center rounded-md border border-slate-700 bg-slate-900/60 px-8 py-3 text-base font-semibold text-slate-100 shadow-sm hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">Partager un événement</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+      <div class="lg:w-1/2">
+        <h2 class="text-2xl font-bold text-white">Comment ça marche</h2>
+        <p class="mt-4 text-base text-slate-200">Ajoutez vos événements de sécurité, trouvez des rencontres proches et restez informé de ce qui se passe dans le monde de la cybersécurité.</p>
+        <ol class="mt-8 space-y-6">
+          <li class="flex gap-4">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-200 font-semibold">1</span>
+            <div>
+              <h3 class="text-lg font-semibold text-white">Partagez</h3>
+              <p class="mt-1 text-sm text-slate-200">Créez un événement et choisissez s'il sera public ou privé.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-200 font-semibold">2</span>
+            <div>
+              <h3 class="text-lg font-semibold text-white">Découvrez</h3>
+              <p class="mt-1 text-sm text-slate-200">Filtrez par date, lieu et type d'activité pour trouver ce qui vous convient le mieux.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-200 font-semibold">3</span>
+            <div>
+              <h3 class="text-lg font-semibold text-white">Participez</h3>
+              <p class="mt-1 text-sm text-slate-200">Notez-le dans votre agenda, invitez des collègues et envoyez des retours aux organisateurs.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="lg:w-1/2">
+        <h2 class="text-2xl font-bold text-white">Prochains événements</h2>
+        {% if events is not empty %}
+          <div class="mt-6 grid gap-6 sm:grid-cols-2">
+            {% for event in events %}
+              <article class="rounded-2xl border border-slate-800/70 bg-slate-900/40 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-slate-900/60">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">{{ event.titre }}</h3>
+                    <p class="mt-1 text-sm text-slate-200">{{ event.lieu }}</p>
+                  </div>
+                  <time datetime="{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}" class="whitespace-nowrap rounded-full bg-slate-800/60 px-3 py-1 text-xs font-semibold text-slate-200">{{ event.dateDebut ? event.dateDebut|date('d/m/Y') : 'N/A' }}</time>
+                </div>
+                {% if event.description %}
+                  <p class="mt-4 text-sm leading-relaxed text-slate-200 max-h-16 overflow-hidden">{{ event.description }}</p>
+                {% endif %}
+                <div class="mt-5 flex items-center justify-between text-xs text-slate-400">
+                  <span>Capacité : {{ event.capaciteMax }}</span>
+                  <a href="{{ path('app_event_show', {'id': event.id}) }}" class="font-semibold text-cyan-300 hover:text-cyan-200">Ver detalhes →</a>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="mt-6 rounded-2xl border border-dashed border-slate-700/60 bg-slate-900/40 p-8 text-center">
+            <p class="text-sm text-slate-200">Aucun événement publié pour le moment. <a href="{{ path('app_event_new') }}" class="font-semibold text-cyan-300 hover:text-cyan-200">Ajouter le premier événement</a>.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+
+</main>
+{% endblock %}
