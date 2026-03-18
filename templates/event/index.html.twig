@@ -15,23 +15,28 @@
                 <th>Lieu</th>
                 <th>CapaciteMax</th>
                 <th>IsPublished</th>
-                <th>actions</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
                 <td>{{ event.id }}</td>
-                <td>{{ event.titre }}</td>
+                <td><a href="{{ path('app_event_show', {'id': event.id}) }}">{{ event.titre }}</a></td>
                 <td>{{ event.description }}</td>
                 <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ event.lieu }}</td>
                 <td>{{ event.capaciteMax }}</td>
                 <td>{{ event.isPublished ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
-                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
+                        <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+                    </td>
+                {% endif %}
+
             </tr>
         {% else %}
             <tr>
@@ -40,6 +45,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_event_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_event_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

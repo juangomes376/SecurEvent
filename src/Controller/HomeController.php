@@ -16,10 +16,10 @@ class HomeController extends AbstractController
 
         $events = $eventRepository
             ->createQueryBuilder('e')
-            ->andWhere('e.isPublished = :published')
-            ->andWhere('e.dateDebut >= :today')
-            ->setParameter('published', true)
-            ->setParameter('today', $today)
+            // ->andWhere('e.isPublished = :published')
+            // ->andWhere('e.dateDebut >= :today')
+            // ->setParameter('published', true)
+            // ->setParameter('today', $today)
             ->orderBy('e.dateDebut', 'ASC')
             ->setMaxResults(6)
             ->getQuery()

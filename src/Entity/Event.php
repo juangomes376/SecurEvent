@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,17 @@ class Event
 
     #[ORM\Column]
     private ?bool $isPublished = null;
+
+    /**
+     * @var Collection<int, Relation>
+     */
+    #[ORM\OneToMany(targetEntity: Relation::class, mappedBy: 'event')]
+    private Collection $relations;
+
+    public function __construct()
+    {
+        $this->relations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +118,36 @@ class Event
     public function setIsPublished(bool $isPublished): static
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relation>
+     */
+    public function getRelations(): Collection
+    {
+        return $this->relations;
+    }
+
+    public function addRelation(Relation $relation): static
+    {
+        if (!$this->relations->contains($relation)) {
+            $this->relations->add($relation);
+            $relation->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelation(Relation $relation): static
+    {
+        if ($this->relations->removeElement($relation)) {
+            // set the owning side to null (unless already changed)
+            if ($relation->getEvent() === $this) {
+                $relation->setEvent(null);
+            }
+        }
 
         return $this;
     }

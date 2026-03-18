@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +46,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, Relation>
+     */
+    #[ORM\OneToMany(targetEntity: Relation::class, mappedBy: 'user')]
+    private Collection $relations;
+
+
+
+    public function __construct()
+    {
+        $this->id_user = new ArrayCollection();
+        $this->relations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,5 +187,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUser()
     {
         
+    }
+
+    /**
+     * @return Collection<int, Relation>
+     */
+    public function getIdUser(): Collection
+    {
+        return $this->id_user;
+    }
+
+    public function addIdUser(Relation $idUser): static
+    {
+        if (!$this->id_user->contains($idUser)) {
+            $this->id_user->add($idUser);
+            $idUser->addIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdUser(Relation $idUser): static
+    {
+        if ($this->id_user->removeElement($idUser)) {
+            $idUser->removeIdUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relation>
+     */
+    public function getRelations(): Collection
+    {
+        return $this->relations;
+    }
+
+    public function addRelation(Relation $relation): static
+    {
+        if (!$this->relations->contains($relation)) {
+            $this->relations->add($relation);
+            $relation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelation(Relation $relation): static
+    {
+        if ($this->relations->removeElement($relation)) {
+            // set the owning side to null (unless already changed)
+            if ($relation->getUser() === $this) {
+                $relation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
