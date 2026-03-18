@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Event{% endblock %}
+{% block title %}Modifier Événement{% endblock %}
 
 {% block body %}
-    <h1>Edit Event</h1>
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
 
-    {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="w-full max-w-3xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+        <h1 class="text-3xl font-extrabold text-white mb-6">Modifier l'événement</h1>
 
-    <a href="{{ path('app_event_index') }}">back to list</a>
+        {{ include('event/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('event/_delete_form.html.twig') }}
+        <div class="mt-6 flex gap-3">
+            <a href="{{ path('app_event_index') }}" class="rounded-md bg-slate-800/60 px-6 py-3 text-slate-200 font-semibold hover:bg-slate-700">
+                Retour à la liste
+            </a>
+
+            {{ include('event/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+</main>
 {% endblock %}

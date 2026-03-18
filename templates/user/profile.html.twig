@@ -3,15 +3,23 @@
 {% block title %}Profil{% endblock %}
 
 {% block body %}
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
+
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="mb-6 w-full max-w-2xl rounded-lg bg-red-700/30 border border-red-600 px-6 py-4 text-red-200">
+            {{ flash_error }}
+        </div>
     {% endfor %}
 
-    <h1>Profil de {{ user.prenom }} {{ user.nom }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>Rôle: {{ user.roles|join(', ') }}</p>
-    <p>Compte créé le: {{ user.createdAt|date('d/m/Y H:i') }}</p>
+    <div class="w-full max-w-2xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+        <h1 class="text-3xl font-extrabold text-white mb-6">Profil de {{ user.prenom }} {{ user.nom }}</h1>
 
+        <div class="space-y-4 text-slate-200">
+            <p><span class="font-semibold text-white">Email:</span> {{ user.email }}</p>
+            <p><span class="font-semibold text-white">Rôle:</span> {{ user.roles|join(', ') }}</p>
+            <p><span class="font-semibold text-white">Compte créé le:</span> {{ user.createdAt|date('d/m/Y H:i') }}</p>
+        </div>
+    </div>
+
+</main>
 {% endblock %}
-
-
