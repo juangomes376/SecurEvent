@@ -34,6 +34,10 @@ class RegistrationController extends AbstractController
             $plainPassword = $form->get('plainPassword')->getData();
 
             // encode the plain password
+            $user->setRoles(['ROLE_USER']);
+            $user->setPrenom($form->get('prenom')->getData());
+            $user->setNom($form->get('nom')->getData());
+            $user->setCreatedAt(new \DateTimeImmutable());
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
