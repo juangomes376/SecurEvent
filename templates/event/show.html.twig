@@ -3,51 +3,33 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ event.titre }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>DateDebut</th>
-                <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Lieu</th>
-                <td>{{ event.lieu }}</td>
-            </tr>
-            <tr>
-                <th>CapaciteMax</th>
-                <td>{{ event.capaciteMax }}</td>
-            </tr>
-            <tr>
-                <th>Reservation</th>
-                <td>
-                    <form action="{{ path('app_reservation', {'id': event.id}) }}" method="post">
-                        <input type="hidden" name="_method" value="PUT">
-                        <button type="submit">Reserve</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="w-full max-w-3xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+        <h1 class="text-3xl font-extrabold text-white mb-6">{{ event.titre }}</h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_event_index') }}">back to list</a>
+        <div class="space-y-4 text-slate-200">
+            <p><span class="font-semibold text-white">Description:</span> {{ event.description }}</p>
+            <p><span class="font-semibold text-white">Date de début:</span> {{ event.dateDebut ? event.dateDebut|date('d/m/Y') : 'N/A' }}</p>
+            <p><span class="font-semibold text-white">Lieu:</span> {{ event.lieu }}</p>
+            <p><span class="font-semibold text-white">Capacité max:</span> {{ event.capaciteMax }}</p>
+        </div>
 
-        <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+        <form action="{{ path('app_reservation', {'id': event.id}) }}" method="post" class="mt-6">
+            <input type="hidden" name="_method" value="PUT">
+            <button type="submit" class="w-full rounded-md bg-cyan-400 px-6 py-3 font-semibold text-slate-950 shadow hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">
+                Réserver
+            </button>
+        </form>
 
-        {{ include('event/_delete_form.html.twig') }}
-    {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="mt-6 flex gap-3">
+                <a href="{{ path('app_event_index') }}" class="rounded-md bg-slate-800/60 px-4 py-2 text-slate-200 font-semibold hover:bg-slate-700">Retour à la liste</a>
+                <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="rounded-md bg-cyan-400 px-4 py-2 text-slate-950 font-semibold hover:bg-cyan-300">Modifier</a>
+                {{ include('event/_delete_form.html.twig') }}
+            </div>
+        {% endif %}
+    </div>
+
+</main>
 {% endblock %}

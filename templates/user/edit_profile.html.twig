@@ -3,19 +3,29 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block body %}
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
+    
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="mb-6 w-full max-w-2xl rounded-lg bg-red-700/30 border border-red-600 px-6 py-4 text-red-200">
+            {{ flash_error }}
+        </div>
     {% endfor %}
 
-    <h1>Edit Profile</h1>
+    <div class="w-full max-w-2xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+        <h1 class="text-3xl font-extrabold text-white mb-6">Modifier votre profil</h1>
 
-    {{ form_errors(userForm) }}
+        {{ form_start(userForm, {'attr': {'class': 'space-y-6'}}) }}
+            
+            {{ form_row(userForm.prenom, {'attr': {'class': 'w-full rounded-md border border-slate-700 bg-slate-900/50 px-4 py-2 text-slate-100 focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400'}}) }}
+            {{ form_row(userForm.nom, {'attr': {'class': 'w-full rounded-md border border-slate-700 bg-slate-900/50 px-4 py-2 text-slate-100 focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400'}}) }}
+            {{ form_row(userForm.email, {'attr': {'class': 'w-full rounded-md border border-slate-700 bg-slate-900/50 px-4 py-2 text-slate-100 focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400'}}) }}
 
-    {{ form_start(userForm) }}
-        {{ form_row(userForm.prenom) }}
-        {{ form_row(userForm.nom) }}
-        {{ form_row(userForm.email) }}
+            <button type="submit" class="w-full rounded-md bg-cyan-400 px-6 py-3 font-semibold text-slate-950 shadow hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">
+                Enregistrer
+            </button>
 
-        <button type="submit" class="btn">Save</button>
-    {{ form_end(userForm) }}
+        {{ form_end(userForm) }}
+    </div>
+
+</main>
 {% endblock %}
