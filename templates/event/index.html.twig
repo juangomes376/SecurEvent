@@ -14,7 +14,9 @@
                 <th>DateDebut</th>
                 <th>Lieu</th>
                 <th>CapaciteMax</th>
-                <th>IsPublished</th>
+                {% if is_granted('ROLE_USER') %}
+                    <th>Reservation</th>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <th>Actions</th>
                 {% endif %}
@@ -29,7 +31,16 @@
                 <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ event.lieu }}</td>
                 <td>{{ event.capaciteMax }}</td>
-                <td>{{ event.isPublished ? 'Yes' : 'No' }}</td>
+                {% if is_granted('ROLE_USER') %}
+                    {# {% if event is not reserved by the current user %} #}
+                    <td><form action="{{ path('app_reservation', {'id': event.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="PUT">
+                        <button type="submit">Reserve</button>
+                    </form></td>
+                    {# {% else %}
+                        <td>Already reserved</td>
+                    {% endif %} #}
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <td>
                         <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>

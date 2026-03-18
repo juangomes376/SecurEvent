@@ -48,17 +48,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     /**
-     * @var Collection<int, Relation>
+     * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Relation::class, mappedBy: 'user')]
-    private Collection $relations;
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
+    private Collection $reservations;
 
 
 
     public function __construct()
     {
         $this->id_user = new ArrayCollection();
-        $this->relations = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,14 +190,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Relation>
+     * @return Collection<int, Reservation>
      */
     public function getIdUser(): Collection
     {
         return $this->id_user;
     }
 
-    public function addIdUser(Relation $idUser): static
+    public function addIdUser(Reservation $idUser): static
     {
         if (!$this->id_user->contains($idUser)) {
             $this->id_user->add($idUser);
@@ -207,7 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeIdUser(Relation $idUser): static
+    public function removeIdUser(Reservation $idUser): static
     {
         if ($this->id_user->removeElement($idUser)) {
             $idUser->removeIdUser($this);
@@ -217,29 +217,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Relation>
+     * @return Collection<int, Reservation>
      */
-    public function getRelations(): Collection
+    public function getReservations(): Collection
     {
-        return $this->relations;
+        return $this->reservations;
     }
 
-    public function addRelation(Relation $relation): static
+    public function addReservation(Reservation $reservation): static
     {
-        if (!$this->relations->contains($relation)) {
-            $this->relations->add($relation);
-            $relation->setUser($this);
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(Relation $relation): static
+    public function removeReservation(Reservation $reservation): static
     {
-        if ($this->relations->removeElement($relation)) {
+        if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($relation->getUser() === $this) {
-                $relation->setUser(null);
+            if ($reservation->getUser() === $this) {
+                $reservation->setUser(null);
             }
         }
 

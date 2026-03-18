@@ -32,8 +32,13 @@
                 <td>{{ event.capaciteMax }}</td>
             </tr>
             <tr>
-                <th>IsPublished</th>
-                <td>{{ event.isPublished ? 'Yes' : 'No' }}</td>
+                <th>Reservation</th>
+                <td>
+                    <form action="{{ path('app_reservation', {'id': event.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="PUT">
+                        <button type="submit">Reserve</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -35,14 +35,14 @@ class Event
     private ?bool $isPublished = null;
 
     /**
-     * @var Collection<int, Relation>
+     * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Relation::class, mappedBy: 'event')]
-    private Collection $relations;
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'event')]
+    private Collection $reservations;
 
     public function __construct()
     {
-        $this->relations = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,29 +123,29 @@ class Event
     }
 
     /**
-     * @return Collection<int, Relation>
+     * @return Collection<int, Reservation>
      */
-    public function getRelations(): Collection
+    public function getReservations(): Collection
     {
-        return $this->relations;
+        return $this->reservations;
     }
 
-    public function addRelation(Relation $relation): static
+    public function addReservation(Reservation $reservation): static
     {
-        if (!$this->relations->contains($relation)) {
-            $this->relations->add($relation);
-            $relation->setEvent($this);
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setEvent($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(Relation $relation): static
+    public function removeReservation(Reservation $reservation): static
     {
-        if ($this->relations->removeElement($relation)) {
+        if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($relation->getEvent() === $this) {
-                $relation->setEvent(null);
+            if ($reservation->getEvent() === $this) {
+                $reservation->setEvent(null);
             }
         }
 

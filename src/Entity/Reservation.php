@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\RelationRepository;
+use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RelationRepository::class)]
-class Relation
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'relations')]
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'relations')]
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
 
