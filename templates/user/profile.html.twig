@@ -1,25 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}Mon Profil - SecureVent{% endblock %}
 
 {% block body %}
-<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
+<main class="min-h-[calc(100vh-5rem)] bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center py-16 px-6">
 
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="mb-6 w-full max-w-2xl rounded-lg bg-red-700/30 border border-red-600 px-6 py-4 text-red-200">
+        <div class="mb-6 w-full max-w-4xl rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-red-400 text-sm">
             {{ flash_error }}
         </div>
     {% endfor %}
 
-    <div class="w-full max-w-2xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
-        <h1 class="text-3xl font-extrabold text-white mb-6">Profil de {{ user.prenom }} {{ user.nom }}</h1>
+    <div class="w-full max-w-4xl space-y-8">
+        <!-- Informations du profil -->
+        <section class="bg-slate-900/40 border border-slate-800/70 rounded-2xl p-8 shadow-xl backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-slate-800">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-white">Profil de {{ user.prenom }} <span class="text-cyan-400">{{ user.nom }}</span></h1>
+                    <p class="text-sm text-slate-400 mt-1">Gérez vos informations et consultez vos participations.</p>
+                </div>
+                <a href="{{ path('app_profile_edit') }}" class="hidden sm:inline-flex items-center justify-center rounded-md border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Modifier mes infos
+                </a>
+            </div>
 
-        <div class="space-y-4 text-slate-200">
-            <p><span class="font-semibold text-white">Email:</span> {{ user.email }}</p>
-            <p><span class="font-semibold text-white">Rôle:</span> {{ user.roles|join(', ') }}</p>
-            <p><span class="font-semibold text-white">Compte créé le:</span> {{ user.createdAt|date('d/m/Y H:i') }}</p>
-        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/50">
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Email</p>
+                    <p class="font-medium text-white">{{ user.email }}</p>
+                </div>
+                <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/50">
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Membre depuis</p>
+                    <p class="font-medium text-white">{{ user.createdAt|date('d/m/Y') }}</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 sm:hidden">
+                <a href="{{ path('app_profile_edit') }}" class="w-full inline-flex items-center justify-center rounded-md border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 transition-colors">
+                    Modifier mes infos
+                </a>
+            </div>
+        </section>
+
+        <!-- Réservations / Événements -->
+        <section>
+            <h2 class="text-2xl font-bold text-white mb-6">Mes réservations</h2>
+            
+            {% if user.reservations is empty %}
+                <div class="rounded-2xl border border-dashed border-slate-700/60 bg-slate-900/40 p-10 text-center">
+                    <svg class="mx-auto h-12 w-12 text-slate-500 mb-4" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-base text-slate-200 mb-2">Vous n'avez pas encore de réservations.</p>
+                    <a href="{{ path('app_event_index') }}" class="inline-flex font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">Explorer les événements disponibles →</a>
+                </div>
+            {% else %}
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {% for reservation in user.reservations %}
+                        <article class="flex flex-col h-full rounded-2xl border border-slate-800/70 bg-slate-900/40 p-5 shadow-sm transition hover:-translate-y-1 hover:border-slate-700 hover:shadow-cyan-900/10">
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <span class="inline-flex items-center rounded-md bg-cyan-400/10 px-2 py-1 text-xs font-medium text-cyan-400 ring-1 ring-inset ring-cyan-400/20">
+                                        Réservé le {{ reservation.createdAt|date('d/m/y') }}
+                                    </span>
+                                </div>
+                                <h3 class="text-lg font-bold text-white leading-tight mb-2">{{ reservation.event.titre }}</h3>
+                                {% if reservation.event.description %}
+                                    <p class="text-sm text-slate-300 line-clamp-2 mb-4">{{ reservation.event.description }}</p>
+                                {% endif %}
+                                
+                                <div class="space-y-2 text-sm text-slate-400 mt-auto">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="h-4 w-4 shrink-0" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <span>{{ reservation.event.dateDebut ? reservation.event.dateDebut|date('d/m/Y H:i') : 'Date à définir' }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="h-4 w-4 shrink-0" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span class="truncate">{{ reservation.event.lieu }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between">
+                                <a href="{{ path('app_event_show', {'id': reservation.event.id}) }}" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+                                    Voir l'événement →
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
     </div>
-
 </main>
 {% endblock %}

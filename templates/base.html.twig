@@ -12,8 +12,11 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans antialiased">
+        {% include '_navbar.html.twig' %}
+        <div class="flex-grow flex flex-col">
+            {% block body %}{% endblock %}
+        </div>
     </body>
     <footer class="border-t border-slate-800/60 bg-slate-950/60 py-10">
         <div class="mx-auto flex max-w-6xl flex-col gap-4 px-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
