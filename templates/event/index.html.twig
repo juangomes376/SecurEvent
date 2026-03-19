@@ -33,9 +33,15 @@
                 {% if is_granted('ROLE_USER') %}
                     <form action="{{ path('app_reservation', {'id': event.id}) }}" method="post" class="mt-4">
                         <input type="hidden" name="_method" value="PUT">
-                        <button type="submit" class="w-full rounded-md bg-cyan-400 px-4 py-2 mt-2 font-semibold text-slate-950 shadow hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">
-                            Réserver
-                        </button>
+                        {% if event.reserved %}
+                            <button type="button" class="w-full rounded-md bg-slate-700 px-4 py-2 mt-2 font-semibold text-slate-400 shadow cursor-not-allowed" disabled>
+                                Déjà réservé
+                            </button>
+                        {% else %}
+                            <button type="submit" class="w-full rounded-md bg-cyan-400 px-4 py-2 mt-2 font-semibold text-slate-950 shadow hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950">
+                                Réserver
+                            </button>
+                        {% endif %}
                     </form>
                 {% endif %}
 

@@ -17,8 +17,25 @@ final class EventController extends AbstractController
     #[Route(name: 'app_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
+
+        $event = $eventRepository->findAll();
+        // add a variable reserved si l'utilisateur a déjà réservé l'événement, pour afficher un message dans la vue show.html.twig
+        $event = array_map(function (Event $event) {
+            $event->reserved = false;
+            if ($this->getUser()) {
+                foreach ($event->getReservations() as $reservation) {
+                    if ($reservation->getUser() === $this->getUser()) {
+                        $event->reserved = true;
+                        break;
+                    }
+                }
+            }
+            return $event;
+        }, $event);
+
+
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $event,
         ]);
     }
 
