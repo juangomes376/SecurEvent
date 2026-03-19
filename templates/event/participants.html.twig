@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participants de l'Événement{% endblock %}
+
+{% block body %}
+<h1>Participants de l'Événement: {{ event.titre }}</h1>
+
+<table class="table-auto w-full mt-4">
+    <thead>
+        <tr>
+            <th class="px-4 py-2">Prenom</th>
+            <th class="px-4 py-2">Nom</th>
+            <th class="px-4 py-2">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+            <tr class="bg-slate-900/40 border border-slate-800/70 rounded-lg mb-2">
+                <td class="px-4 py-2">{{ participant.user.prenom }}</td>
+                <td class="px-4 py-2">{{ participant.user.nom }}</td>
+                <td class="px-4 py-2">{{ participant.user.email }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2" class="px-4 py-2 text-center text-slate-400">Aucun participant pour cet événement.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

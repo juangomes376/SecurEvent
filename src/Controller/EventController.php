@@ -101,4 +101,20 @@ final class EventController extends AbstractController
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // list participants of an event
+    #[Route('/{id}/participants', name: 'app_event_participants', methods: ['GET'])]
+    public function participants(Event $event): Response
+    {        $participants = [];
+        foreach ($event->getReservations() as $reservation) {
+            $participants[] = $reservation->getUser();  
+        }
+
+
+        error_log('Participants: ' . print_r($participants, true));
+        return $this->render('event/participants.html.twig', [
+            'event' => $event,
+            'participants' => $participants,
+        ]);
+    }
 }
