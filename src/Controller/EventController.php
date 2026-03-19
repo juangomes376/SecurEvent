@@ -19,9 +19,13 @@ final class EventController extends AbstractController
     {
 
         $event = $eventRepository->findAll();
-        // add a variable reserved si l'utilisateur a déjà réservé l'événement, pour afficher un message dans la vue show.html.twig
         $event = array_map(function (Event $event) {
             $event->reserved = false;
+            $capaciteMax = $event->getCapaciteMax();
+            $reservationsCount = count($event->getReservations());
+            $placesRestantes = $capaciteMax - $reservationsCount;
+            $event->placesRestantes = $placesRestantes;
+
             if ($this->getUser()) {
                 foreach ($event->getReservations() as $reservation) {
                     if ($reservation->getUser() === $this->getUser()) {
@@ -32,6 +36,8 @@ final class EventController extends AbstractController
             }
             return $event;
         }, $event);
+
+        
 
 
         return $this->render('event/index.html.twig', [

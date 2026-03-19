@@ -40,4 +40,14 @@ class EventRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function countReservations(): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->select('e.id, COUNT(r.id) AS reservationsCount')
+            ->leftJoin('e.reservations', 'r')
+            ->groupBy('e.id');
+
+        return $qb->getQuery()->getResult();
+    }
 }
