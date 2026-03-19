@@ -19,7 +19,13 @@ class ReservationController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user) {
-            throw $this->createAccessDeniedException('Você precisa estar logado para fazer uma reserva.');
+            throw $this->createAccessDeniedException('Vous devez être connecté pour réserver un événement.');
+        }
+
+        $reservationsCount = count($event->getReservations());
+        if ($reservationsCount >= $event->getCapaciteMax()) {
+            $this->addFlash('error', 'Désolé, cet événement est complet.');
+            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
         }
 
         $reservation = new Reservation();
