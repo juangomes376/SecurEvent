@@ -7,3 +7,32 @@
 body {
     @apply bg-[#0a0514] text-slate-100 antialiased;
 }
+
+header  #gt_float_wrapper{
+  position:relative;
+}
+
+header .gt_float_switcher {
+  background-color: #1d293d00;
+}
+
+header .gt_float_switcher .gt_options {
+  position:absolute;
+  left: 0;
+  background-color: #1d293d00;
+}
+
+header .gt_float_switcher .gt_options a{
+  color: #fff;
+}
+  
+header .gt_float_switcher .gt-selected {
+  background-color: #1D293D;
+  border: 1px solid;
+  border-radius: 50px;
+  border-color: gradient-to-r from-cyan-400 to-cyan-300;
+}
+
+header .gt_float_switcher .gt-selected .gt-lang-code{
+  color: #fff;
+}
