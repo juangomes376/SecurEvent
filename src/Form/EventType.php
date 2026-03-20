@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Categories;
 use App\Entity\Event;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +20,11 @@ class EventType extends AbstractType
             ->add('lieu')
             ->add('capaciteMax')
             ->add('isPublished')
+            ->add('idCategorie', EntityType::class, [
+                'class' => Categories::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Select a category',
+            ])
         ;
     }
 

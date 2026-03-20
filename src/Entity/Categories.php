@@ -54,6 +54,11 @@ class Categories
         return $this->events;
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->getNom();
+    }
+
     public function addEvent(Event $event): static
     {
         if (!$this->events->contains($event)) {

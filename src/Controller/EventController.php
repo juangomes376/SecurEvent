@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Categorie;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Service\EventService;
