@@ -22,24 +22,14 @@ final class EventController extends AbstractController
         $event = array_map(function (Event $event) {
             $event->reserved = false;
             $capaciteMax = $event->getCapaciteMax();
-            $reservationsCount = count($event->getReservations());
-            $placesRestantes = $capaciteMax - $reservationsCount;
-            $event->placesRestantes = $placesRestantes;
+            $reservationsCount = $event->countReservations();
+            $placesRestantes = $event->placesRestantes();
+            $event->reserved = $event->isReservedByUser($this->getUser());
 
-            if ($this->getUser()) {
-                foreach ($event->getReservations() as $reservation) {
-                    if ($reservation->getUser() === $this->getUser()) {
-                        $event->reserved = true;
-                        break;
-                    }
-                }
-            }
             return $event;
         }, $event);
 
         
-
-
         return $this->render('event/index.html.twig', [
             'events' => $event,
         ]);
@@ -107,11 +97,15 @@ final class EventController extends AbstractController
     public function participants(Event $event): Response
     {        $participants = [];
         foreach ($event->getReservations() as $reservation) {
-            $participants[] = $reservation->getUser();  
+
+            $participant = array(
+                'prenom' => $reservation->getUser()->getPrenom(),
+                'nom' => $reservation->getUser()->getNom(),
+                'email' => $reservation->getUser()->getEmail(),
+            );
+            $participants[] = $participant;
         }
 
-
-        error_log('Participants: ' . print_r($participants, true));
         return $this->render('event/participants.html.twig', [
             'event' => $event,
             'participants' => $participants,

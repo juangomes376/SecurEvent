@@ -140,6 +140,11 @@ class Event
         return $this;
     }
 
+    public function countReservations(): int
+    {
+        return count($this->reservations);
+    }
+
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
@@ -151,4 +156,21 @@ class Event
 
         return $this;
     }
+
+    public function placesRestantes(): int
+    {
+        return $this->capaciteMax - count($this->reservations);
+    }
+
+    public function isReservedByUser(User $user): bool
+    {
+        foreach ($this->reservations as $reservation) {
+            if ($reservation->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

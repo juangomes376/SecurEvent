@@ -8,21 +8,21 @@
 <table class="table-auto w-full mt-4">
     <thead>
         <tr>
-            <th class="px-4 py-2">Prenom</th>
-            <th class="px-4 py-2">Nom</th>
-            <th class="px-4 py-2">Email</th>
+            <th class="text-center px-4 py-2">Prenom</th>
+            <th class="text-center px-4 py-2">Nom</th>
+            <th class="text-center px-4 py-2">Email</th>
         </tr>
     </thead>
     <tbody>
         {% for participant in participants %}
             <tr class="bg-slate-900/40 border border-slate-800/70 rounded-lg mb-2">
-                <td class="px-4 py-2">{{ participant.user.prenom }}</td>
-                <td class="px-4 py-2">{{ participant.user.nom }}</td>
-                <td class="px-4 py-2">{{ participant.user.email }}</td>
+                <td class="text-center px-4 py-2">{{ participant.prenom }}</td>
+                <td class="text-center px-4 py-2">{{ participant.nom }}</td>
+                <td class="text-center px-4 py-2">{{ participant.email }}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2" class="px-4 py-2 text-center text-slate-400">Aucun participant pour cet événement.</td>
+                <td colspan="3" class="px-4 py-2 text-center text-slate-400">Aucun participant pour cet événement.</td>
             </tr>
         {% endfor %}
     </tbody>
