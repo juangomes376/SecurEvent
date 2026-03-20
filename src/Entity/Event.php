@@ -140,11 +140,6 @@ class Event
         return $this;
     }
 
-    public function countReservations(): int
-    {
-        return count($this->reservations);
-    }
-
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {

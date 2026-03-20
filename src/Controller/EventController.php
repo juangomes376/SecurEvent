@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Service\EventService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,23 +16,16 @@ use Symfony\Component\Routing\Attribute\Route;
 final class EventController extends AbstractController
 {
     #[Route(name: 'app_event_index', methods: ['GET'])]
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, EventService $eventService): Response
     {
+        $events = $eventRepository->findAll();
+        foreach ($events as $event) {
+            $event->reserved = $eventService->isEventReservedByUser($event, $this->getUser());
+            $event->placesRestantes = $eventService->placesRestantes($event);
+        }
 
-        $event = $eventRepository->findAll();
-        $event = array_map(function (Event $event) {
-            $event->reserved = false;
-            $capaciteMax = $event->getCapaciteMax();
-            $reservationsCount = $event->countReservations();
-            $placesRestantes = $event->placesRestantes();
-            $event->reserved = $event->isReservedByUser($this->getUser());
-
-            return $event;
-        }, $event);
-
-        
         return $this->render('event/index.html.twig', [
-            'events' => $event,
+            'events' => $events,
         ]);
     }
 
@@ -95,7 +89,8 @@ final class EventController extends AbstractController
     // list participants of an event
     #[Route('/{id}/participants', name: 'app_event_participants', methods: ['GET'])]
     public function participants(Event $event): Response
-    {        $participants = [];
+    {        
+        $participants = [];
         foreach ($event->getReservations() as $reservation) {
 
             $participant = array(
