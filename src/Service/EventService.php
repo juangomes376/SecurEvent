@@ -44,6 +44,11 @@ class EventService
         return $this->placesRestantes($event) > 0;
     }
 
+    public function findAllEventsByCategory($category, $eventRepository): array
+    {
+        return $eventRepository->findBy(['idCategorie' => $category]);
+    }
+
 
 
 

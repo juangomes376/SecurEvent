@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
-use App\Entity\Categories;
+use App\Entity\Categorie;
 use App\Form\EventType;
 use App\Repository\EventRepository;
-use App\Repository\CategoriesRepository;
 use App\Service\EventService;
+use App\Service\CategoriesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,13 +18,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class EventController extends AbstractController
 {
     #[Route(name: 'app_event_index', methods: ['GET'])]
-    public function index(Request $request, EventRepository $eventRepository, CategoriesRepository $categoriesRepository, EventService $eventService): Response
+    public function index(EventRepository $eventRepository, EventService $eventService, CategoriesService $categoriesService, Request $request): Response
     {
-        $categoryId = $request->query->get('category');
-        $selectedCategory = $categoryId ? $categoriesRepository->find($categoryId) : null;
-
+        $selectedCategory = $request->query->has('category') ? $request->query->get('category') : null;
         if ($selectedCategory) {
-            $events = $eventRepository->findBy(['idCategorie' => $selectedCategory]);
+            $events = $eventService->findAllEventsByCategory($selectedCategory, $eventRepository);
         } else {
             $events = $eventRepository->findAll();
         }
@@ -36,7 +34,7 @@ final class EventController extends AbstractController
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
-            'categories' => $categoriesRepository->findAll(),
+            'categories' => $categoriesService->getAllCategories(),
             'selectedCategory' => $selectedCategory,
         ]);
     }

@@ -15,7 +15,7 @@
             </a>
             {% for category in categories %}
                 <a href="{{ path('app_event_index', {'category': category.id}) }}" 
-                   class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all {{ selectedCategory and selectedCategory.id == category.id ? 'bg-cyan-400 text-slate-950 shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800/60' }}">
+                   class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all {{ selectedCategory and selectedCategory == category.id ? 'bg-cyan-400 text-slate-950 shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800/60' }}">
                     {{ category.Nom }}
                 </a>
             {% endfor %}
