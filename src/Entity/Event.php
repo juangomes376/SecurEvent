@@ -40,6 +40,9 @@ class Event
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'event')]
     private Collection $reservations;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?Categories $idCategorie = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -166,6 +169,18 @@ class Event
         }
 
         return false;
+    }
+
+    public function getIdCategorie(): ?Categories
+    {
+        return $this->idCategorie;
+    }
+
+    public function setIdCategorie(?Categories $idCategorie): static
+    {
+        $this->idCategorie = $idCategorie;
+
+        return $this;
     }
 
 }
