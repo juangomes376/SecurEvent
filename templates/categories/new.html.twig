@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Categories{% endblock %}
+{% block title %}Nouvelle Catégorie · SecureVent{% endblock %}
 
 {% block body %}
-    <h1>Create new Categories</h1>
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex items-center justify-center py-20 px-6">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-400/5 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+    
+    <div class="relative w-full max-w-xl">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight text-white">
+                Ajouter une <span class="text-cyan-400">catégorie</span>
+            </h1>
+            <p class="mt-2 text-slate-400">Définissez une nouvelle thématique pour vos événements.</p>
+        </div>
 
-    {{ include('categories/_form.html.twig') }}
+        <div class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-8 lg:p-10 shadow-2xl backdrop-blur-sm">
+            {{ include('categories/_form.html.twig') }}
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+            <div class="mt-8 pt-6 border-t border-slate-800/50 text-center">
+                <a href="{{ path('app_categories_index') }}" class="text-sm font-semibold text-slate-400 hover:text-cyan-400 transition-colors">
+                    ← Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

@@ -1,4 +1,11 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    <div class="space-y-2">
+        {{ form_label(form.Nom, 'Nom de la catégorie', {'label_attr': {'class': 'block text-sm font-semibold text-slate-300'}}) }}
+        {{ form_widget(form.Nom, {'attr': {'class': 'w-full rounded-xl border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all'}}) }}
+        {{ form_errors(form.Nom, {'attr': {'class': 'text-sm text-red-400'}}) }}
+    </div>
+
+    <button class="w-full rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg hover:bg-cyan-300 active:scale-[0.98] transition-all">
+        {{ button_label|default('Enregistrer les modifications') }}
+    </button>
 {{ form_end(form) }}

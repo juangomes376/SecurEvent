@@ -1,13 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Categories{% endblock %}
+{% block title %}Modifier la Catégorie : {{ category.Nom }} · SecureVent{% endblock %}
 
 {% block body %}
-    <h1>Edit Categories</h1>
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex items-center justify-center py-20 px-6">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-400/5 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+    
+    <div class="relative w-full max-w-xl">
+        <div class="mb-8">
+            <a href="{{ path('app_categories_index') }}" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2">
+                ← Retour à la liste
+            </a>
+        </div>
 
-    {{ include('categories/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-8 lg:p-10 shadow-2xl backdrop-blur-sm">
+            <h1 class="text-2xl font-bold text-white mb-8">
+                Modifier la <span class="text-cyan-400">catégorie</span>
+            </h1>
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+            {{ include('categories/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('categories/_delete_form.html.twig') }}
+            <div class="mt-8 pt-6 border-t border-slate-800/50 flex items-center justify-between">
+                <span class="text-xs text-slate-500 font-mono">ID: #{{ category.id }}</span>
+                {{ include('categories/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
