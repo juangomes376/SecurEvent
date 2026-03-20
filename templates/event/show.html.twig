@@ -3,15 +3,6 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-{% set placesRestantes = event.capaciteMax - event.reservations|length %}
-{% set isReserved = false %}
-{% if app.user %}
-    {% for res in event.reservations %}
-        {% if res.user.id == app.user.id %}
-            {% set isReserved = true %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
 
 <main class="min-h-screen bg-slate-950 text-slate-100 py-12 px-6">
     <div class="max-w-5xl mx-auto">
@@ -107,7 +98,7 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-sm font-medium text-slate-200">Disponibilité</p>
-                                <p class="text-sm text-slate-400 mt-1">{{ placesRestantes }} places / <span class="text-slate-500">{{ event.capaciteMax }} max</span></p>
+                                <p class="text-sm text-slate-400 mt-1">{{ event.placesRestantes }} places / <span class="text-slate-500">{{ event.capaciteMax }} max</span></p>
                             </div>
                         </li>
                     </ul>

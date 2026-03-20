@@ -50,8 +50,11 @@ final class EventController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
-    public function show(Event $event): Response
+    public function show(Event $event, EventRepository $eventRepository, EventService $eventService): Response
     {
+        $event->reserved = $eventService->isEventReservedByUser($event, $this->getUser());
+        $event->placesRestantes = $eventService->placesRestantes($event);
+
         return $this->render('event/show.html.twig', [
             'event' => $event,
         ]);
@@ -88,18 +91,9 @@ final class EventController extends AbstractController
 
     // list participants of an event
     #[Route('/{id}/participants', name: 'app_event_participants', methods: ['GET'])]
-    public function participants(Event $event): Response
+    public function participants(Event $event, EventService $eventService): Response
     {        
-        $participants = [];
-        foreach ($event->getReservations() as $reservation) {
-
-            $participant = array(
-                'prenom' => $reservation->getUser()->getPrenom(),
-                'nom' => $reservation->getUser()->getNom(),
-                'email' => $reservation->getUser()->getEmail(),
-            );
-            $participants[] = $participant;
-        }
+        $participants = $eventService->getParticipants($event);
 
         return $this->render('event/participants.html.twig', [
             'event' => $event,

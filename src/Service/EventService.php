@@ -30,6 +30,21 @@ class EventService
         return max(0, $capaciteMax - $reservationsCount);
     }
 
+    public function getParticipants(Event $event): array
+    {
+        $participants = [];
+        foreach ($event->getReservations() as $reservation) {
+            $participants[] = $reservation->getUser();
+        }
+        return $participants;
+    }
+
+    public function PlaceDisponible(Event $event): bool
+    {
+        return $this->placesRestantes($event) > 0;
+    }
+
+
 
 
     

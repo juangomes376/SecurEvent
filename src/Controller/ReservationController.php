@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reservation;
 use App\Entity\Event;
+use App\Service\EventService;
 
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ReservationController extends AbstractController
 {
     #[Route('/reservation/{id}', name: 'app_reservation', methods: ['PUT'])]
-    public function index(Event $event, EntityManagerInterface $entityManager): Response
+    public function index(Event $event, EntityManagerInterface $entityManager, EventService $eventService): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -23,8 +24,13 @@ class ReservationController extends AbstractController
         }
 
         $reservationsCount = count($event->getReservations());
-        if ($reservationsCount >= $event->getCapaciteMax()) {
+        if (!$eventService->PlaceDisponible($event)) {
             $this->addFlash('error', 'Désolé, cet événement est complet.');
+            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+        }
+
+        if ($eventService->isEventReservedByUser($event, $user)) {
+            $this->addFlash('error', 'Vous avez déjà réservé cet événement.');
             return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
         }
 
