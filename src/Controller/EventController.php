@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/event')]
 final class EventController extends AbstractController
 {
+    // pas besoin etre conecté pour voir les événements
+    #[isGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page.')]
     #[Route(name: 'app_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository, EventService $eventService, CategoriesService $categoriesService, Request $request): Response
     {

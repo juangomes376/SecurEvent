@@ -44,6 +44,8 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        - { path: ^/event$, roles: PUBLIC_ACCESS }
+        - { path: ^/event/\d+$, roles: PUBLIC_ACCESS }
         - { path: ^/event, roles: ROLE_USER }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/categories, roles: ROLE_ADMIN }
