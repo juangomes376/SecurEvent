@@ -3,9 +3,9 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex items-center justify-center py-20 px-6">
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex items-center justify-center py-10 sm:py-20 px-4 sm:px-6">
 
-    <div class="w-full max-w-md bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+    <div class="w-full max-w-md bg-slate-900/40 border border-slate-800/70 rounded-2xl p-6 sm:p-10 shadow-md">
         <h1 class="text-3xl font-extrabold text-white mb-6">Créer un compte</h1>
 
         {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}

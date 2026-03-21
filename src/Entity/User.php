@@ -57,7 +57,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->id_user = new ArrayCollection();
         $this->reservations = new ArrayCollection();
     }
 
@@ -180,38 +179,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getUser()
-    {
-        
-    }
-
-    /**
-     * @return Collection<int, Reservation>
-     */
-    public function getIdUser(): Collection
-    {
-        return $this->id_user;
-    }
-
-    public function addIdUser(Reservation $idUser): static
-    {
-        if (!$this->id_user->contains($idUser)) {
-            $this->id_user->add($idUser);
-            $idUser->addIdUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdUser(Reservation $idUser): static
-    {
-        if ($this->id_user->removeElement($idUser)) {
-            $idUser->removeIdUser($this);
-        }
 
         return $this;
     }

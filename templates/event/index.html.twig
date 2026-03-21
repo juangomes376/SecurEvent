@@ -3,10 +3,10 @@
 {% block title %}Liste des événements{% endblock %}
 
 {% block body %}
-<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 py-20 px-6">
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 py-12 sm:py-20 px-4 sm:px-6">
 
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-        <h1 class="text-3xl font-extrabold text-white">Événements</h1>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Événements</h1>
         
         <div class="flex flex-wrap items-center gap-2 bg-slate-900/40 p-1.5 rounded-xl border border-slate-800/60 transition-all focus-within:border-cyan-400/30">
             <a href="{{ path('app_event_index') }}" 
@@ -31,7 +31,7 @@
 
     <div class="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {% for event in events %}
-            <article class="relative flex flex-col h-full rounded-2xl border border-slate-800/70 bg-slate-900/40 p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-cyan-400/30 hover:shadow-cyan-400/5">
+            <article class="relative flex flex-col h-full rounded-2xl border border-slate-800/70 bg-slate-900/40 p-5 sm:p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-cyan-400/30 hover:shadow-cyan-400/5">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="flex-1 min-w-0">
                         {% if event.idCategorie %}

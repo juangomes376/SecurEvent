@@ -3,7 +3,7 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block body %}
-<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-20 px-6">
+<main class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex flex-col items-center justify-start py-10 sm:py-20 px-4 sm:px-6">
     
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="mb-6 w-full max-w-2xl rounded-lg bg-red-700/30 border border-red-600 px-6 py-4 text-red-200">
@@ -11,7 +11,7 @@
         </div>
     {% endfor %}
 
-    <div class="w-full max-w-2xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-10 shadow-md">
+    <div class="w-full max-w-2xl bg-slate-900/40 border border-slate-800/70 rounded-2xl p-6 sm:p-10 shadow-md">
         <h1 class="text-3xl font-extrabold text-white mb-6">Modifier votre profil</h1>
 
         {{ form_start(userForm, {'attr': {'class': 'space-y-6'}}) }}
